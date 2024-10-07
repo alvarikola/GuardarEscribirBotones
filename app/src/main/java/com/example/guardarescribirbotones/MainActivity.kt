@@ -61,7 +61,10 @@ class MainActivity : ComponentActivity() {
                 Text("Guardar archivo")
             }
             Button(
-                onClick = { Leer(nombreArchivo) }
+                onClick = {
+                    var outs2 = WriteReadFile.leerTextoArchivo(myContext, nombreArchivo)
+                    Log.i("prueba", outs2)
+                }
             ) {
                 Text("Leer archivo")
             }
@@ -69,28 +72,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    fun Leer(nombreArchivo: String) {
-        val estadoAlmacenamiento = Environment.getExternalStorageState()
-        if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
-            val directorio = getFilesDir()
-            val archivo = File(directorio, nombreArchivo)
-            try {
-                val flujoEntrada = FileReader(archivo)
-                val leer = BufferedReader(flujoEntrada)
-                val contenidoArchivo = leer.readLines()
-                leer.close()
 
-                Log.i("DAM2", "Contenido del archivo: $contenidoArchivo")
-                flujoEntrada.close()
-                // File(directorio, nombreArchivo).delete() esto es para borrar y que no se acumulen los datos
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.i("DAM2", "Error al leer")
-            }
-        }else {
-            Log.i("DAM2", "No se pudo acceder al almacenamiento externo")
-        }
-    }
 
 
 }
