@@ -24,6 +24,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.FileReader
 import java.io.OutputStreamWriter
+import com.example.guardarescribirbotones.WriteReadFile
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +34,6 @@ class MainActivity : ComponentActivity() {
             GuardarEscribirBotonesTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
                 ) {
                     SaveTextToFile("ejemplo.txt")
                 }
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { Escribir(texto, nombreArchivo) }
+                onClick = { WriteReadFile.guardarTextoEnArchivo(texto, nombreArchivo) }
             ) {
                 Text("Guardar archivo")
             }
@@ -60,27 +61,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    fun Escribir(texto: String, nombreArchivo: String) {
-        val estadoAlmacenamiento = Environment.getExternalStorageState()
 
-        if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
-            val directorio = getFilesDir()
-            val archivo = File(directorio, nombreArchivo)
-            try {
-                val flujoSalida = FileOutputStream(archivo, true)
-                val writer = OutputStreamWriter(flujoSalida)
-                writer.append(texto)
-                writer.close()
-
-                Log.i("DAM2", "Añadido en $directorio $nombreArchivo")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.i("DAM2", "Error al guardar")
-            }
-        }else {
-            Log.i("DAM2", "No se pudo acceder al almacenamiento externo")
-        }
-    }
 
     fun Leer(nombreArchivo: String) {
         val estadoAlmacenamiento = Environment.getExternalStorageState()
