@@ -1,5 +1,6 @@
 package com.example.guardarescribirbotones
 
+import android.content.Context
 import android.os.Environment
 import android.util.Log
 import java.io.File
@@ -8,11 +9,11 @@ import java.io.OutputStreamWriter
 
 class WriteReadFile {
     companion object{
-        fun guardarTextoEnArchivo(texto: String, nombreArchivo: String): String {
+        fun guardarTextoEnArchivo(context: Context, texto: String, nombreArchivo: String): String {
             val estadoAlmacenamiento = Environment.getExternalStorageState()
 
             if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
-                val directorio = getFilesDir()
+                val directorio = context.filesDir
                 val archivo = File(directorio, nombreArchivo)
                 try {
                     val flujoSalida = FileOutputStream(archivo, true)

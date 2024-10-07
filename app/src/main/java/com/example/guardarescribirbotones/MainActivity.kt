@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.guardarescribirbotones.ui.theme.GuardarEscribirBotonesTheme
 import java.io.BufferedReader
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            Log.i("prueba", LocalContext.current.toString())
             GuardarEscribirBotonesTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -44,13 +46,17 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun SaveTextToFile(nombreArchivo: String) {
         val texto = "Hola me llamo Alvaro"
+        val myContext = LocalContext.current
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { WriteReadFile.guardarTextoEnArchivo(texto, nombreArchivo) }
+                onClick = {
+                    var outs = WriteReadFile.guardarTextoEnArchivo(myContext, texto, nombreArchivo)
+                    Log.i("prueba", outs)
+                }
             ) {
                 Text("Guardar archivo")
             }
